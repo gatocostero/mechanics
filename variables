@@ -1,0 +1,40 @@
+CAMPOS NECESARIOS EN repair.order (Ajustes → Técnico → Campos → Nuevo, o donde los creaste antes)
+
+--- DATOS DEL VEHÍCULO ---
+x_placa              Texto (Char)
+x_marca               Texto (Char)
+x_modelo              Texto (Char)
+x_color               Texto (Char)
+x_anio                Texto (Char) o Entero (Integer)
+
+--- CHECK LIST DE INGRESO: Inventario y Accesorios ---
+x_chk_kilometraje           Texto (Char) o Entero
+x_chk_nivelcombustible       Selección (Selection) — opciones: 0, 1/8, 1/4, 3/8, 1/2, 5/8, 3/4, 7/8, Full
+x_chk_espejos_laterales      Casilla (Boolean)
+x_chk_cristales               Casilla (Boolean)
+x_chk_plumillas               Casilla (Boolean)
+x_chk_llanta                  Casilla (Boolean)
+x_chk_llave_ruedas            Casilla (Boolean)
+x_chk_llave_birlos            Casilla (Boolean)
+x_chk_gata                    Casilla (Boolean)
+x_chk_extintor                 Casilla (Boolean)
+x_chk_radio                   Casilla (Boolean)
+x_chk_claxon                  Casilla (Boolean)
+x_chk_tarjetacirculacion       Casilla (Boolean)
+
+--- CHECK LIST DE INGRESO: Estado de Carrocería ---
+x_chk_faros_posteriores        Casilla (Boolean)
+x_chk_farosdelanteros           Casilla (Boolean)
+x_chk_raspones                 Casilla (Boolean)
+x_detalle_raspones             Texto (Char) o Texto largo (Text)
+x_chk_observacionesgenerales    Texto (Char) o Texto largo (Text)
+
+--- EVIDENCIA FOTOGRÁFICA ---
+x_foto_tablero          Imagen (Binary, con "es imagen"=Sí)
+x_foto_frontal_l        Imagen (Binary, con "es imagen"=Sí)
+x_foto_posterior_d      Imagen (Binary, con "es imagen"=Sí)
+
+NOTA IMPORTANTE sobre x_chk_nivelcombustible:
+Este campo usa widget="radio" en la vista, lo que requiere que sea tipo SELECCIÓN
+(no Char ni Boolean). Al crearlo, en "Valores de selección" agrega estas 8 opciones,
+una por una, en este orden: 0, 1/8, 1/4, 3/8, 1/2, 5/8, 3/4, 7/8, Full
