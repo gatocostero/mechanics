@@ -1,0 +1,86 @@
+<data>
+
+    <!-- ============================================================ -->
+    <!-- TRUCO 1: Agregar campos de vehículo después de "Producto a    -->
+    <!-- reparar" (product_id).                                        -->
+    <!-- ============================================================ -->
+    <xpath expr="//field[@name='product_id']" position="after">
+        <field name="x_placa" placeholder="Ej. VBN-120"/>
+        <field name="x_marca" placeholder="Ej. Toyota"/>
+        <field name="x_modelo" placeholder="Ej. Yaris"/>
+        <field name="x_color"/>
+        <field name="x_anio" placeholder="Ej. 2018"/>
+    </xpath>
+
+    <!-- ============================================================ -->
+    <!-- TRUCO 2: Renombrar la pestaña "Parts" a "Servicios y/o        -->
+    <!-- Repuestos".                                                    -->
+    <!-- ============================================================ -->
+    <xpath expr="//page[@name='parts']" position="attributes">
+        <attribute name="string">Servicios y/o Repuestos</attribute>
+    </xpath>
+
+    <!-- ============================================================ -->
+    <!-- TRUCO 3: Agregar la pestaña "Check list de ingreso" antes de  -->
+    <!-- la pestaña de repuestos/servicios.                             -->
+    <!-- Nota: x_chk_nivelcombustible usa colspan="2" (atributo nativo -->
+    <!-- de Odoo) en vez de CSS manual, para no descuadrar la grilla   -->
+    <!-- de los campos que siguen.                                     -->
+    <!-- ============================================================ -->
+    <xpath expr="//page[@name='parts']" position="before">
+        <page string="Check list de ingreso" name="recepcion_inventario">
+            <group>
+                <group string="Recepcion">
+                    <field name="x_chk_kilometraje"/>
+                    <field name="x_chk_nivelcombustible" widget="radio" options="{'horizontal': true}"/>
+                    
+                    <field name="x_chk_plumillas"/>
+                    <field name="x_chk_llanta"/>
+                    <field name="x_chk_llave_ruedas"/>
+                    <field name="x_chk_llave_birlos"/>
+                    <field name="x_chk_gata"/>
+                    <field name="x_chk_extintor"/>
+                    <field name="x_chk_radio"/>
+                    <field name="x_chk_claxon"/>
+                    <field name="x_chk_tarjetacirculacion"/>
+                    <field name="x_chk_tapetes"/>
+                    <field name="x_chk_tapa_combustible"/>
+                    <field name="x_chk_tapacubos"/>
+                </group>
+                <group string="Estado de Carrocería">
+                    <field name="x_chk_espejos_laterales"/>
+                    <field name="x_chk_cristales"/>
+                    <field name="x_chk_faros_posteriores"/>
+                    <field name="x_chk_farosdelanteros"/>
+                    <field name="x_chk_raspones"/>
+                    <field name="x_detalle_raspones" invisible="x_chk_raspones == False" placeholder="Indique dónde están los daños..."/>
+                    <field name="x_chk_observacionesgenerales"/>
+                </group>
+                <!-- Bloque de fotos (con función de zoom) -->
+                <separator string="Evidencia Fotográfica al Ingreso"/>
+                <div class="row mt-3 mb-4">
+
+                    <!-- Foto 1 -->
+                    <div class="col-12 col-md-4 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
+                        <strong class="d-block mb-2">Odómetro / Tablero</strong>
+                        <field name="x_foto_tablero" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
+                    </div>
+
+                    <!-- Foto 2 -->
+                    <div class="col-12 col-md-4 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
+                        <strong class="d-block mb-2">Exterior Frontal</strong>
+                        <field name="x_foto_frontal_l" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
+                    </div>
+
+                    <!-- Foto 3 -->
+                    <div class="col-12 col-md-4 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
+                        <strong class="d-block mb-2">Exterior Posterior</strong>
+                        <field name="x_foto_posterior_d" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
+                    </div>
+
+                </div>
+            </group>
+        </page>
+    </xpath>
+
+</data>
