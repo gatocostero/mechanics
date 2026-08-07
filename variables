@@ -4,6 +4,28 @@ CAMPOS NECESARIOS EN repair.order (Ajustes → Técnico → Campos → Nuevo, o 
 x_placa              Texto (Char)
 x_marca               Texto (Char)
 x_modelo              Texto (Char)
+
+toyota	TOYOTA	
+mitsubishi	MITSUBISHI	
+hyundai	HYUNDAI	
+kia	KIA	
+ford	FORD	
+nissan	NISSAN	
+volkswagen	VOLKSWAGEN	
+chevrolet	CHEVROLET	
+subaru	SUBARU	
+mazda	MAZDA	
+susuki	SUSUKI	
+jac	JAC	
+bmw	BMW	
+honda	HONDA	
+peugeot	PEUGEOT	
+renault	RENAULT	
+jeep	JEEP	
+daewoo	DAEWOO	
+volvo	VOLVO	
+otros	otros
+
 x_color               Texto (Char)
 x_anio                Texto (Char) o Entero (Integer)
 
@@ -21,6 +43,9 @@ x_chk_extintor                 Casilla (Boolean)
 x_chk_radio                   Casilla (Boolean)
 x_chk_claxon                  Casilla (Boolean)
 x_chk_tarjetacirculacion       Casilla (Boolean)
+x_chk_tapetes
+x_chk_tapacubos
+x_chk_tapa_combustible
 
 --- CHECK LIST DE INGRESO: Estado de Carrocería ---
 x_chk_faros_posteriores        Casilla (Boolean)
