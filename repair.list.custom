@@ -1,0 +1,13 @@
+<data>
+
+    <!-- ============================================================ -->
+    <!-- TRUCO: Agregar columnas de vehículo (Placa, Marca, Modelo)    -->
+    <!-- después de la columna "Producto a reparar".                   -->
+    <!-- ============================================================ -->
+    <xpath expr="//field[@name='product_id']" position="after">
+        <field name="x_placa" optional="show"/>
+        <field name="x_marca" optional="show"/>
+        <field name="x_modelo" optional="show"/>
+    </xpath>
+
+</data>
