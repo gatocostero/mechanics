@@ -29,25 +29,24 @@
 
     <!-- ============================================================ -->
     <!-- TRUCO 2: Reemplazar la tabla única de líneas por dos tablas   -->
-    <!-- (Servicios / Repuestos), separadas por categoría raíz del     -->
-    <!-- producto (ej. "SERVICIOS"). Respeta secciones, subsecciones,  -->
-    <!-- notas y combos igual que la tabla original.                   -->
+    <!-- (Servicios / Repuestos), separadas por el campo NATIVO        -->
+    <!-- "Tipo de producto" (product_type == 'service'). Respeta       -->
+    <!-- secciones, subsecciones, notas y combos igual que la tabla    -->
+    <!-- original.                                                      -->
     <!--                                                                -->
     <!-- Clasificación de cada línea:                                  -->
-    <!--  - Producto / combo "normal": por su propia categ_id.         -->
+    <!--  - Producto / combo "normal": por su propio product_type.     -->
+    <!--    Si es 'service' -> Servicios; cualquier otro valor         -->
+    <!--    ('consu', 'combo', etc.) -> Repuestos.                     -->
     <!--  - Nota / ítem de combo: hereda el grupo de la línea ANTERIOR -->
     <!--  - Sección / subsección: hereda el grupo de la SIGUIENTE      -->
     <!--    línea clasificable (su primer producto real).              -->
-    <!--                                                                -->
-    <!-- Ajusta el nombre de la categoría raíz si es distinto.         -->
     <!-- ============================================================ -->
     <xpath expr="//table[hasclass('o_main_table')]" position="replace">
 
         <t t-set="price_field" t-value="'price_total' if (hide_taxes_details or doc.company_price_include == 'tax_included') else 'price_subtotal'"/>
 
-        <t t-set="service_categ_root" t-value="'SERVICIOS'"/>
-
-        <t t-set="own_groups" t-value="[(('SERVICIOS' if (l.product_id and l.product_id.categ_id and l.product_id.categ_id.display_name.split(' / ')[0].strip().upper() == service_categ_root) else 'REPUESTOS') if (not l.display_type and not l.combo_item_id) else None) for l in lines_to_report]"/>
+        <t t-set="own_groups" t-value="[(('SERVICIOS' if l.product_type == 'service' else 'REPUESTOS') if (not l.display_type and not l.combo_item_id) else None) for l in lines_to_report]"/>
 
         <!-- Hacia atrás: usado por notas e ítems de combo -->
         <t t-set="backward_groups" t-value="reduce(lambda acc, i: acc + [(own_groups[i] if own_groups[i] is not None else (acc[-1] if acc else 'REPUESTOS'))], range(len(lines_to_report)), [])"/>
@@ -67,10 +66,10 @@
             <t t-set="group_lines" t-value="lines_group[1]"/>
 
             <t t-if="group_lines">
-                <h4 t-out="group_title" class="mt-4 mb-2"/>
+                <h4 t-out="group_title" class="mt-2 mb-1"/>
 
                 <div class="oe_structure"/>
-                <table class="o_has_total_table table o_main_table table-borderless">
+                <table class="o_has_total_table table o_main_table table-borderless table-sm">
                     <thead style="display: table-row-group">
                         <tr>
                             <th name="th_description" class="text-start">Descripción</th>
@@ -237,7 +236,7 @@
                 </table>
 
                 <div class="clearfix">
-                    <div class="row mt-n3">
+                    <div class="row mt-1">
                         <div>
                             <table class="o_total_table table table-borderless ms-auto w-auto">
                                 <tr class="fw-bold">
@@ -252,6 +251,17 @@
                 </div>
             </t>
         </t>
+    </xpath>
+
+    <!-- ============================================================ -->
+    <!-- TRUCO 3: El bloque de total general (con IGV) que trae Odoo   -->
+    <!-- de fábrica también usa margen negativo (mt-n3), pensado para  -->
+    <!-- pegarse a UNA sola tabla. Como ahora hay dos tablas con sus   -->
+    <!-- propios subtotales antes de este bloque, se lo quitamos para  -->
+    <!-- evitar que se solape con "Subtotal Repuestos".                -->
+    <!-- ============================================================ -->
+    <xpath expr="//div[@id='total']" position="attributes">
+        <attribute name="class">row mt-1</attribute>
     </xpath>
 
 </data>
