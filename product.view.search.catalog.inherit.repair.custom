@@ -1,0 +1,13 @@
+<data>
+    <xpath expr="//field[@name='categ_id'][1]" position="after">
+        <field name="product_tag_ids" string="Etiquetas"/>
+    </xpath>
+
+    <xpath expr="//field[@name='product_tag_ids']" position="after">
+        <field name="additional_product_tag_ids" string="Tipo de vehículo (variante)"/>
+    </xpath>
+
+    <xpath expr="//searchpanel" position="inside">
+        <field name="additional_product_tag_ids" string="Tipo de vehículo" icon="fa-car" enable_counters="1" select="multi"/>
+    </xpath>
+</data>
