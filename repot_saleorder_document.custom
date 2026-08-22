@@ -7,7 +7,7 @@
     <xpath expr="//div[@id='informations']" position="inside">
         <t t-set="mi_reparacion" t-value="doc.env['repair.order'].search([('sale_order_id', '=', doc.id)], limit=1)"/>
 
-        <div t-if="mi_reparacion" class="col" name="informations_vehicle">
+        <div t-if="mi_reparacion" class="col" name="informations_vehicle" style="font-size: 15px;">
             <strong>Vehículo</strong>
             <div t-if="mi_reparacion.x_placa" class="mt-1">
                 <strong>Placa:</strong> <span t-field="mi_reparacion.x_placa"/>
@@ -66,10 +66,10 @@
             <t t-set="group_lines" t-value="lines_group[1]"/>
 
             <t t-if="group_lines">
-                <h4 t-out="group_title" class="mt-2 mb-1" style="page-break-after: avoid;"/>
+                <h4 t-out="group_title" class="mt-2 mb-1" style="page-break-after: avoid; font-size: 20px;"/>
 
                 <div class="oe_structure"/>
-                <table class="o_has_total_table table o_main_table table-borderless table-sm">
+                <table class="o_has_total_table table o_main_table table-borderless table-sm" style="font-size: 14px;">
                     <thead>
                         <tr>
                             <th name="th_description" class="text-start">Descripción</th>
@@ -238,7 +238,7 @@
                 <div class="clearfix">
                     <div class="row mt-1">
                         <div>
-                            <table class="o_total_table table table-borderless ms-auto w-auto">
+                            <table class="o_total_table table table-borderless ms-auto w-auto" style="font-size: 14px;">
                                 <tr class="fw-bold">
                                     <td class="text-start">Subtotal <span t-out="group_title"/></td>
                                     <td class="text-end o_price_total">
