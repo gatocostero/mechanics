@@ -3,7 +3,7 @@
         <t t-set="o" t-value="doc"/>
             <t t-call="web.external_layout">
                 <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
-                <div class="page">
+                <div class="page" style="font-size: 15px;"> <!-- Reducido el tamaño de fuente general de la página -->
                     <div class="oe_structure"/>
                     <h2>
                         <span>Repair Order #</span>
@@ -26,7 +26,7 @@
                             <p t-if="o.x_marca" class="m-0">
                                 <strong>Marca:</strong> <span t-field="o.x_marca"/>
                             </p>
-                            <p t-if="o.x_marca" class="m-0">
+                            <p t-if="o.x_modelo" class="m-0">
                                 <strong>Modelo:</strong> <span t-field="o.x_modelo"/>
                             </p>
                             <p t-if="o.x_color" class="m-0">
@@ -54,11 +54,11 @@
                     <div class="oe_structure"/>
 
                     <!-- ========================================== -->
-                    <!-- TABLA 1: REPUESTOS (campo nativo move_ids) -->
+                    <!-- TABLA 1: REPUESTOS (Con letra compacta)    -->
                     <!-- ========================================== -->
                     <t t-if="o.move_ids">
-                        <h2 class="mb-3 border-bottom border-2 border-dark">Repuestos</h2>
-                        <table class="table table-sm o_main_table mb-4">
+                        <h3 class="mb-2 border-bottom border-2 border-dark" style="font-size: 20px; page-break-after: avoid;">Repuestos</h3>
+                        <table class="table table-sm o_main_table mb-4" style="font-size: 14px;">
                             <thead style="border-bottom: 2px solid black;">
                                 <tr>
                                     <th>Descripción del Repuesto</th>
@@ -66,9 +66,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="o.move_ids" t-as="line" style="border-bottom: 1px solid #ddd;">
-                                    <td class="py-2"><span t-field="line.product_id.name"/></td>
-                                    <td class="text-end py-2">
+                                <tr t-foreach="o.move_ids" t-as="line" style="border-bottom: 1px solid #ddd; page-break-inside: avoid;">
+                                    <td class="py-1">
+                                        <!-- Referencia interna añadida -->
+                                        <span t-if="line.product_id.default_code">[<span t-field="line.product_id.default_code"/>] </span>
+                                        <span t-field="line.product_id.name"/>
+                                    </td>
+                                    <td class="text-end py-1">
                                         <span t-field="line.product_uom_qty"/> <span groups="uom.group_uom" t-field="line.uom_id.name"/>
                                     </td>
                                 </tr>
@@ -76,13 +80,12 @@
                         </table>
                     </t>
 
-                    <!-- ================================================= -->
-                    <!-- TABLA 2: SERVICIOS (campo nativo                   -->
-                    <!-- repair_service_line_ids)                            -->
-                    <!-- ================================================= -->
+                    <!-- ========================================== -->
+                    <!-- TABLA 2: SERVICIOS (Con letra compacta)    -->
+                    <!-- ========================================== -->
                     <t t-if="o.repair_service_line_ids">
-                        <h2 class="mb-3 border-bottom border-2 border-dark mt-4">Servicios</h2>
-                        <table class="table table-sm o_main_table mb-4">
+                        <h3 class="mb-2 border-bottom border-2 border-dark mt-3" style="font-size: 20px; page-break-after: avoid;">Servicios</h3>
+                        <table class="table table-sm o_main_table mb-4" style="font-size: 14px;">
                             <thead style="border-bottom: 2px solid black;">
                                 <tr>
                                     <th>Descripción del Trabajo</th>
@@ -90,12 +93,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="o.repair_service_line_ids" t-as="line" style="border-bottom: 1px solid #ddd;">
-                                    <td class="py-2">
+                                <tr t-foreach="o.repair_service_line_ids" t-as="line" style="border-bottom: 1px solid #ddd; page-break-inside: avoid;">
+                                    <td class="py-1">
                                         <span t-if="line.description" t-field="line.description"/>
                                         <span t-else="" t-field="line.product_id.name"/>
                                     </td>
-                                    <td class="text-end py-2">
+                                    <td class="text-end py-1">
                                         <span t-field="line.quantity"/> <span groups="uom.group_uom" t-field="line.uom_id.name"/>
                                     </td>
                                 </tr>
@@ -105,26 +108,24 @@
 
                     <div class="oe_structure"/>
 
-                    <!-- NOTAS (Opcional, si quieres que salgan las notas internas) -->
+                    <!-- NOTAS -->
                     <div t-if="o.internal_notes">
-                        <h2 class="mb-3 border-bottom border-2 border-dark">Notas de Reparación</h2>
+                        <h3 class="mb-2 border-bottom border-2 border-dark" style="font-size: 20px; page-break-after: avoid;">Notas de Reparación</h3>
                         <span t-field="o.internal_notes">This is a repair note.</span>
                     </div>
 
                     <div class="oe_structure"/>
-                    
+
                     <!-- ================================================================= -->
-                    <!-- SALTO DE PÁGINA: AQUÍ EMPIEZA LA HOJA EXCLUSIVA DEL ALMACENERO    -->
+                    <!-- SALTO DE PÁGINA: HOJA DEL ALMACENERO                              -->
                     <!-- ================================================================= -->
                     <div style="page-break-before: always;"/>
 
-                    <!-- ========================================== -->
-                    <!-- ANEXO: VALE DE REPUESTOS PARA ALMACÉN      -->
-                    <!-- ========================================== -->
-                        <div class="mt-4">
-                        <h3 class="border-bottom border-dark pb-2 mb-4">Anexo: DESPACHO ALMACEN</h3>
+                    <!-- VALE DE REPUESTOS PARA ALMACÉN -->
+                    <div class="mt-2">
+                        <h3 class="border-bottom border-dark pb-1 mb-3" style="font-size: 20px; page-break-after: avoid;">Anexo: DESPACHO ALMACÉN</h3>
                         <t t-if="o.move_ids">
-                            <table class="table table-sm o_main_table mb-4">
+                            <table class="table table-sm o_main_table mb-4" style="font-size: 14px;">
                                 <thead style="border-bottom: 2px solid black;">
                                     <tr>
                                         <th>Descripción del Repuesto</th>
@@ -133,19 +134,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <!-- Iteramos sobre los movimientos y sus líneas detalladas de ubicación -->
                                     <t t-foreach="o.move_ids" t-as="move">
                                         <t t-foreach="move.move_line_ids" t-as="line">
-                                            <tr style="border-bottom: 1px solid #ddd;">
-                                                <td class="py-2">
-                                                    <!-- Se añadió la referencia interna (default_code) -->
+                                            <tr style="border-bottom: 1px solid #ddd; page-break-inside: avoid;">
+                                                <td class="py-1">
                                                     <span t-if="move.product_id.default_code">[<span t-field="move.product_id.default_code"/>] </span>
                                                     <span t-field="move.product_id.name"/>
                                                 </td>
-                                                <td class="py-2">
+                                                <td class="py-1">
                                                     <strong><span t-field="line.location_id.complete_name"/></strong>
                                                 </td>
-                                                <td class="text-end py-2">
+                                                <td class="text-end py-1">
                                                     <span t-field="line.quantity"/> <span groups="uom.group_uom" t-field="line.uom_id.name"/>
                                                 </td>
                                             </tr>
@@ -154,96 +153,88 @@
                                 </tbody>
                             </table>
                         </t>
-                        </div>
+                    </div>
 
-                    <!-- Corta la hoja antes del anexo -->
+                    <!-- SALTO DE PÁGINA: CHECKLIST Y FOTOS -->
                     <div style="page-break-before: always;"/>
-                         <!-- ========================================== -->
-                         <!-- ANEXO: CHECKLIST -->
-                         <!-- ========================================== -->
-                        <div class="mt-4">
-                            <h3 class="border-bottom border-dark pb-2 mb-4">Anexo: Checklist de Ingreso y Evidencia</h3>
 
-                            <!-- Sección 1: Casillas y Daños -->
-                            <div class="mb-4" style="font-size: 14px;">
-                                <p><strong>Check list de ingreso:</strong></p>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <ul class="list-unstyled">
-                                            <li><t t-if="o.x_chk_kilometraje">☑</t><t t-else="">☐</t> Kilometraje: <span t-field="o.x_chk_kilometraje"/></li>
-                                            <li>Nivel de Combustible: <strong><span t-field="o.x_chk_nivelcombustible"/></strong></li>
-                                            <li><t t-if="o.x_chk_plumillas">☑</t><t t-else="">☐</t> Plumillas</li>
-                                            <li><t t-if="o.x_chk_llanta">☑</t><t t-else="">☐</t> Llanta repuesto</li>
-                                            <li><t t-if="o.x_chk_llave_ruedas">☑</t><t t-else="">☐</t> Llave de ruedas</li>
-                                            <li><t t-if="o.x_chk_llave_birlos">☑</t><t t-else="">☐</t> Llave de birlos</li>
-                                            <li><t t-if="o.x_chk_gata">☑</t><t t-else="">☐</t> Gata y herramientas</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-6">
-                                        <ul class="list-unstyled">
-                                            <li><t t-if="o.x_chk_extintor">☑</t><t t-else="">☐</t> Extintor</li>
-                                            <li><t t-if="o.x_chk_radio">☑</t><t t-else="">☐</t> Radio / Pantalla</li>
-                                            <li><t t-if="o.x_chk_claxon">☑</t><t t-else="">☐</t> Claxon</li>
-                                            <li><t t-if="o.x_chk_tarjetacirculacion">☑</t><t t-else="">☐</t> Tarjeta Circulación</li>
-                                            <li><t t-if="o.x_chk_tapetes">☑</t><t t-else="">☐</t> Tapetes</li>
-                                            <li><t t-if="o.x_chk_tapa_combustible">☑</t><t t-else="">☐</t> Tapa combustible</li>
-                                            <li><t t-if="o.x_chk_tapacubos">☑</t><t t-else="">☐</t> Tapacubos</li>
-                                        </ul>
-                                    </div>
+                    <div class="mt-2">
+                        <h3 class="border-bottom border-dark pb-1 mb-3" style="font-size: 20px; page-break-after: avoid;">Anexo: Checklist de Ingreso y Evidencia</h3>
+
+                        <div class="mb-3" style="font-size: 15px;">
+                            <p class="mb-1"><strong>Check list de ingreso:</strong></p>
+                            <div class="row" style="page-break-inside: avoid;">
+                                <div class="col-6">
+                                    <ul class="list-unstyled m-0">
+                                        <li><t t-if="o.x_chk_kilometraje">☑</t><t t-else="">☐</t> Kilometraje: <span t-field="o.x_chk_kilometraje"/></li>
+                                        <li>⛽ Nivel Combustible: <strong><span t-field="o.x_chk_nivelcombustible"/></strong></li>
+                                        <li><t t-if="o.x_chk_plumillas">☑</t><t t-else="">☐</t> Plumillas</li>
+                                        <li><t t-if="o.x_chk_llanta">☑</t><t t-else="">☐</t> Llanta repuesto</li>
+                                        <li><t t-if="o.x_chk_llave_ruedas">☑</t><t t-else="">☐</t> Llave ruedas</li>
+                                        <li><t t-if="o.x_chk_llave_birlos">☑</t><t t-else="">☐</t> Llave birlos</li>
+                                        <li><t t-if="o.x_chk_gata">☑</t><t t-else="">☐</t> Gata y herramientas</li>
+                                    </ul>
                                 </div>
-                                
-                                <hr/>
-                                
-                                <p><strong>Estado de Carrocería:</strong></p>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <p class="m-0"><t t-if="o.x_chk_espejos_laterales">☑</t><t t-else="">☐</t> Espejos laterales</p>
-                                        <p class="m-0"><t t-if="o.x_chk_cristales">☑</t><t t-else="">☐</t> Cristales</p>
-                                        <p class="m-0"><t t-if="o.x_chk_faros_posteriores">☑</t><t t-else="">☐</t> Faros posteriores</p>
-                                    </div>
-                                    <div class="col-6">
-                                        <p class="m-0"><t t-if="o.x_chk_farosdelanteros">☑</t><t t-else="">☐</t> Faros delanteros</p>
-                                        <p class="m-0"><t t-if="o.x_chk_observacionesgenerales">☑</t><t t-else="">☐</t> Observaciones generales</p>
-                                    </div>
+                                <div class="col-6">
+                                    <ul class="list-unstyled m-0">
+                                        <li><t t-if="o.x_chk_extintor">☑</t><t t-else="">☐</t> Extintor</li>
+                                        <li><t t-if="o.x_chk_radio">☑</t><t t-else="">☐</t> Radio / Pantalla</li>
+                                        <li><t t-if="o.x_chk_claxon">☑</t><t t-else="">☐</t> Claxon</li>
+                                        <li><t t-if="o.x_chk_tarjetacirculacion">☑</t><t t-else="">☐</t> Tarjeta Circulación</li>
+                                        <li><t t-if="o.x_chk_tapetes">☑</t><t t-else="">☐</t> Tapetes</li>
+                                        <li><t t-if="o.x_chk_tapa_combustible">☑</t><t t-else="">☐</t> Tapa combustible</li>
+                                        <li><t t-if="o.x_chk_tapacubos">☑</t><t t-else="">☐</t> Tapacubos</li>
+                                    </ul>
                                 </div>
-    
-                                <t t-if="o.x_chk_raspones">
-                                    <p class="mt-3 text-danger"><strong>⚠️ Daños en carrocería reportados al ingreso:</strong></p>
-                                    <p class="m-0 border p-2"><span t-field="o.x_detalle_raspones"/></p>
-                                </t>
-                                <t t-else="">
-                                    <p class="mt-3">☑ Sin daños de carrocería reportados al ingreso.</p>
-                                </t>
                             </div>
-                    
 
-                            <!-- Sección 2: Fotos hacia abajo -->
-                            <div class="mt-4">
-                                <p><strong>Registro Fotográfico:</strong></p>
-                                <div class="row">
-                                    <!-- Foto 1 -->
-                                    <div class="col-3 text-center" t-if="o.x_chk_foto1">
-                                        <p class="mb-1 text-muted" style="font-size: 12px;">Foto 1</p>
-                                        <span t-field="o.x_chk_foto1" t-options="{'widget': 'image', 'style': 'max-width: 100%; max-height: 230px; border: 1px solid #ddd; padding: 2px;'}"/>
-                                    </div>
-                                    <!-- Foto 2 -->
-                                    <div class="col-3 text-center" t-if="o.x_chk_foto2">
-                                        <p class="mb-1 text-muted" style="font-size: 12px;">Foto 2</p>
-                                        <span t-field="o.x_chk_foto2" t-options="{'widget': 'image', 'style': 'max-width: 100%; max-height: 230px; border: 1px solid #ddd; padding: 2px;'}"/>
-                                    </div>
-                                    <!-- Foto 3 -->
-                                    <div class="col-3 text-center" t-if="o.x_chk_foto3">
-                                        <p class="mb-1 text-muted" style="font-size: 12px;">Foto 3</p>
-                                        <span t-field="o.x_chk_foto3" t-options="{'widget': 'image', 'style': 'max-width: 100%; max-height: 230px; border: 1px solid #ddd; padding: 2px;'}"/>
-                                    </div>
-                                    <!-- Foto 4 -->
-                                    <div class="col-3 text-center" t-if="o.x_chk_foto4">
-                                        <p class="mb-1 text-muted" style="font-size: 12px;">Foto 4</p>
-                                        <span t-field="o.x_chk_foto4" t-options="{'widget': 'image', 'style': 'max-width: 100%; max-height: 230px; border: 1px solid #ddd; padding: 2px;'}"/>
-                                    </div>
+                            <hr class="my-2"/>
+
+                            <p class="mb-1"><strong>Estado de Carrocería:</strong></p>
+                            <div class="row" style="page-break-inside: avoid;">
+                                <div class="col-6">
+                                    <p class="m-0"><t t-if="o.x_chk_espejos_laterales">☑</t><t t-else="">☐</t> Espejos laterales</p>
+                                    <p class="m-0"><t t-if="o.x_chk_cristales">☑</t><t t-else="">☐</t> Cristales</p>
+                                    <p class="m-0"><t t-if="o.x_chk_faros_posteriores">☑</t><t t-else="">☐</t> Faros posteriores</p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="m-0"><t t-if="o.x_chk_farosdelanteros">☑</t><t t-else="">☐</t> Faros delanteros</p>
+                                    <p class="m-0"><t t-if="o.x_chk_observacionesgenerales">☑</t><t t-else="">☐</t> Observaciones generales</p>
+                                </div>
+                            </div>
+
+                            <t t-if="o.x_chk_raspones">
+                                <p class="mt-2 mb-1 text-danger"><strong>⚠️ Daños en carrocería reportados:</strong></p>
+                                <p class="m-0 border p-1"><span t-field="o.x_detalle_raspones"/></p>
+                            </t>
+                            <t t-else="">
+                                <p class="mt-2 mb-0">☑ Sin daños de carrocería reportados al ingreso.</p>
+                            </t>
+                        </div>
+
+                        <!-- FOTOS EN FILA (Tamaño optimizado) -->
+                        <div class="mt-3" style="page-break-inside: avoid;">
+                            <p class="mb-2"><strong>Registro Fotográfico:</strong></p>
+                            <div class="row">
+                                <div class="col-3 text-center" t-if="o.x_chk_foto1">
+                                    <p class="mb-1 text-muted" style="font-size: 13px;">Foto 1</p>
+                                    <span t-field="o.x_chk_foto1" t-options="{'widget': 'image', 'style': 'max-width: 100%; max-height: 180px; border: 1px solid #ddd; padding: 2px;'}"/>
+                                </div>
+                                <div class="col-3 text-center" t-if="o.x_chk_foto2">
+                                    <p class="mb-1 text-muted" style="font-size: 13px;">Foto 2</p>
+                                    <span t-field="o.x_chk_foto2" t-options="{'widget': 'image', 'style': 'max-width: 100%; max-height: 180px; border: 1px solid #ddd; padding: 2px;'}"/>
+                                </div>
+                                <div class="col-3 text-center" t-if="o.x_chk_foto3">
+                                    <p class="mb-1 text-muted" style="font-size: 13px;">Foto 3</p>
+                                    <span t-field="o.x_chk_foto3" t-options="{'widget': 'image', 'style': 'max-width: 100%; max-height: 180px; border: 1px solid #ddd; padding: 2px;'}"/>
+                                </div>
+                                <div class="col-3 text-center" t-if="o.x_chk_foto4">
+                                    <p class="mb-1 text-muted" style="font-size: 13px;">Foto 4</p>
+                                    <span t-field="o.x_chk_foto4" t-options="{'widget': 'image', 'style': 'max-width: 100%; max-height: 180px; border: 1px solid #ddd; padding: 2px;'}"/>
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </t>
     </t>
