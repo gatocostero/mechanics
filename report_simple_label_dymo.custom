@@ -1,0 +1,136 @@
+<data>
+
+    <!-- 1. Contenedor exterior principal -->
+    <xpath expr="//div[hasclass('o_label_full')]" position="attributes">
+        <attribute name="style">
+            height: 100% !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 1mm !important;
+            overflow: hidden !important;
+        </attribute>
+    </xpath>
+
+    <!-- 2. Flex real: aquí es donde title y content son hijos directos -->
+    <xpath expr="//div[hasclass('o_label_centered_content')]" position="attributes">
+        <attribute name="style">
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-start !important;
+            height: 100% !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            gap: 0 !important;
+        </attribute>
+    </xpath>
+
+    <!-- 3. Anula el display:table heredado que causaba el centrado "fantasma" -->
+    <xpath expr="//div[hasclass('o_label_centering_table')]" position="attributes">
+        <attribute name="style">
+            display: block !important;
+            height: 100% !important;
+            width: 100% !important;
+        </attribute>
+    </xpath>
+
+    <!-- 4. Título: 4 líneas fijas, bold, 13px -->
+    <xpath expr="//div[hasclass('o_label_title')]" position="attributes">
+        <attribute name="style">
+            position: static !important;
+            white-space: normal !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 4 !important;
+            -webkit-box-orient: vertical !important;
+            font-size: 13px !important;
+            font-weight: bold !important;
+            line-height: 1.15 !important;
+            height: 60px !important;
+            max-height: 60px !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            flex-shrink: 0 !important;
+            box-sizing: border-box !important;
+            text-align: center !important;
+        </attribute>
+    </xpath>
+
+    <!-- 5. Elimina el espacio heredado entre título y barcode -->
+    <xpath expr="//div[hasclass('o_label_content')]" position="attributes">
+        <attribute name="style">
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        </attribute>
+    </xpath>
+
+    <!-- 6. Bloque de barcode -->
+    <xpath expr="//div[hasclass('o_label_barcode_block')]" position="attributes">
+        <attribute name="style">
+            width: 100% !important;
+            text-align: center !important;
+            overflow: hidden !important;
+            flex-shrink: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        </attribute>
+    </xpath>
+
+    <!-- 7. Tamaño del código de barras (reducido para dejar lugar a 4 líneas de título) -->
+    <xpath expr="//t[@t-set='barcode_size']" position="attributes">
+        <attribute name="t-value">'width:100%;height:4mm'</attribute>
+    </xpath>
+
+    <!-- 8. Elimina el espacio en blanco que se agrega solo cuando hay precio sin unidad base -->
+    <xpath expr="//div[hasclass('o_label_no_unit_price_spacer')]" position="attributes">
+        <attribute name="style">
+            display: none !important;
+            height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        </attribute>
+    </xpath>
+
+    <!-- 9. Fila inferior: referencia a la izquierda, precio a la derecha -->
+    <xpath expr="//div[hasclass('o_label_table')]" position="attributes">
+        <attribute name="style">
+            flex-shrink: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: baseline !important;
+            font-size: 8px !important;
+            line-height: 1.1 !important;
+        </attribute>
+    </xpath>
+
+<!-- 10. Referencia (código de producto): esquina izquierda, más grande -->
+<xpath expr="//div[hasclass('o_product_code')]" position="attributes">
+    <attribute name="style">
+        flex-shrink: 1 !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+        text-align: left !important;
+        margin: 0 !important;
+        font-size: 12px !important;
+        font-weight: bold !important;
+    </attribute>
+</xpath>
+    <!-- 11. Precio: esquina derecha -->
+    <xpath expr="//div[hasclass('o_label_meta_block')]" position="attributes">
+        <attribute name="style">
+            flex-shrink: 0 !important;
+            text-align: right !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        </attribute>
+    </xpath>
+
+</data>
