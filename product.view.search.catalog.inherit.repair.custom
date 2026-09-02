@@ -1,10 +1,8 @@
 <data>
-    <xpath expr="//field[@name='categ_id'][1]" position="after">
-        <field name="product_tag_ids" string="Etiquetas"/>
-    </xpath>
+
 
     <xpath expr="//field[@name='product_tag_ids']" position="after">
-        <field name="additional_product_tag_ids" string="Tipo de vehículo (variante)"/>
+        <field name="additional_product_tag_ids" string="Etiqueta de la variante servicios"/>
     </xpath>
 
     <xpath expr="//searchpanel" position="inside">
