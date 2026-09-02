@@ -17,7 +17,7 @@
     <!-- Repuestos".                                                    -->
     <!-- ============================================================ -->
     <xpath expr="//page[@name='parts']" position="attributes">
-        <attribute name="string">Servicios y/o Repuestos</attribute>
+        <attribute name="string">Repuestos</attribute>
     </xpath>
 
     <!-- ============================================================ -->
@@ -54,33 +54,39 @@
                     <field name="x_chk_farosdelanteros"/>
                     <field name="x_chk_raspones"/>
                     <field name="x_detalle_raspones" invisible="x_chk_raspones == False" placeholder="Indique dónde están los daños..."/>
-                    <field name="x_chk_observacionesgenerales"/>
+                    <field name="x_chk_observacionesgenerales"/>  
                 </group>
                 <!-- Bloque de fotos (con función de zoom) -->
                 <separator string="Evidencia Fotográfica al Ingreso"/>
-                <div class="row mt-3 mb-4">
-
-                    <!-- Foto 1 -->
-                    <div class="col-12 col-md-4 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
-                        <strong class="d-block mb-2">Odómetro / Tablero</strong>
-                        <field name="x_foto_tablero" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
+                <div class="row mt-4 mb-4">
+                     <!-- Foto 1 -->
+                    <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
+                        <strong class="d-block mb-2">Foto 1</strong>
+                        <field name="x_chk_foto1" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
                     </div>
 
                     <!-- Foto 2 -->
-                    <div class="col-12 col-md-4 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
-                        <strong class="d-block mb-2">Exterior Frontal</strong>
-                        <field name="x_foto_frontal_l" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
+                    <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
+                        <strong class="d-block mb-2">Foto 2</strong>
+                        <field name="x_chk_foto2" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
                     </div>
 
                     <!-- Foto 3 -->
-                    <div class="col-12 col-md-4 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
-                        <strong class="d-block mb-2">Exterior Posterior</strong>
-                        <field name="x_foto_posterior_d" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
+                    <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
+                        <strong class="d-block mb-2">Foto 3</strong>
+                        <field name="x_chk_foto3" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
+                    </div>
+                    
+                    <!-- Foto 4 -->
+                    <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
+                        <strong class="d-block mb-2">Foto 4</strong>
+                        <field name="x_chk_foto4" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
                     </div>
 
+                   
                 </div>
             </group>
         </page>
     </xpath>
-
+    
 </data>
