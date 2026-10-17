@@ -1,8 +1,32 @@
 <data>
+    <xpath expr="//page[@name='parts']//field[@name='product_id']" position="attributes">
+        <attribute name="domain">
+            [('x_compatibilidades_ids.x_modelo_vehiculo', 'ilike', parent.x_modelo), ('x_compatibilidades_ids.x_anio_desde', '&lt;=', parent.x_anio), ('x_compatibilidades_ids.x_anio_hasta', '&gt;=', parent.x_anio)] if parent.x_aplicar_filtro_vehiculo else []
+        </attribute>
+    </xpath>
+
+    <xpath expr="//field[@name='internal_notes']" position="before">
+        <style>
+            .o_field_html img { max-width: 50% !important; height: auto; }
+        </style>
+    </xpath>
+
+    <xpath expr="//field[@name='partner_id']" position="after">
+        <field name="x_tipo_doc" string="Tipo de documento" options="{'no_create': True, 'no_open': True}"/>
+        <field name="x_dni" string="ID"/>
+        <field name="x_celular" string="Celular"/>
+    </xpath>
 
     <!-- ============================================================ -->
-    <!-- TRUCO 1: Agregar campos de vehículo después de "Producto a    -->
-    <!-- reparar" (product_id).                                        -->
+    <!-- OCULTAR "Producto a reparar" (product_id) en la cabecera     -->
+    <!-- ============================================================ -->
+    <xpath expr="//field[@name='product_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+    </xpath>
+
+    <!-- ============================================================ -->
+    <!-- T1: Agregar campos de vehículo después de "Producto a        -->
+    <!-- reparar" (product_id).                                       -->
     <!-- ============================================================ -->
     <xpath expr="//field[@name='product_id']" position="after">
         <field name="x_placa" placeholder="Ej. VBN-120"/>
@@ -13,39 +37,83 @@
     </xpath>
 
     <!-- ============================================================ -->
-    <!-- TRUCO 2: Renombrar la pestaña "Parts" a "Servicios y/o        -->
-    <!-- Repuestos".                                                    -->
+    <!-- T2: Renombrar la pestaña "Parts" a "Repuestos".              -->
     <!-- ============================================================ -->
     <xpath expr="//page[@name='parts']" position="attributes">
         <attribute name="string">Repuestos</attribute>
     </xpath>
+    
+    <xpath expr="//page[@name='services']//field[@name='product_id']" position="attributes">
+        <attribute name="domain">[
+            '&amp;',
+                ('type', '=', 'service'),
+                '|',
+                    ('product_template_attribute_value_ids', '=', False),
+                    ('product_template_attribute_value_ids.name', 'ilike', parent.x_modelo)
+        ]</attribute>
+    </xpath>
+    
+    <xpath expr="//label[@for='product_qty']" position="attributes">
+        <attribute name="invisible">1</attribute>
+    </xpath>
+    <xpath expr="//field[@name='product_qty']" position="attributes">
+        <attribute name="invisible">1</attribute>
+    </xpath>
+    <xpath expr="//field[@name='tag_ids']" position="after">
+        <field name="x_chk_mant_prev" string="Mantenimiento Preventivo" widget="boolean_toggle"/>
+        <field name="x_chk_mant_correc" string="Mantenimiento Correctivo" widget="boolean_toggle"/>
+        <field name="x_aplicar_filtro_vehiculo" widget="boolean_toggle"/>
+        <field name="under_warranty" position="move"/>
+    </xpath>
 
     <!-- ============================================================ -->
-    <!-- TRUCO 3: Agregar la pestaña "Check list de ingreso" antes de  -->
-    <!-- la pestaña de repuestos/servicios.                             -->
-    <!-- Nota: x_chk_nivelcombustible usa colspan="2" (atributo nativo -->
-    <!-- de Odoo) en vez de CSS manual, para no descuadrar la grilla   -->
-    <!-- de los campos que siguen.                                     -->
+    <!-- T3: Agregar la pestaña "Check list de ingreso" con el área   -->
+    <!-- de fotos arriba del todo.                                    -->
     <!-- ============================================================ -->
     <xpath expr="//page[@name='parts']" position="before">
         <page string="Check list de ingreso" name="recepcion_inventario">
+            
+            <!-- Bloque de fotos ARRIBA DEL TODO (con función de zoom) -->
+            <separator string="Evidencia Fotográfica al Ingreso"/>
+            <div class="row mt-4 mb-4">
+                <!-- Foto 1 -->
+                <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
+                    <strong class="d-block mb-2">Foto 1</strong>
+                    <field name="x_chk_foto1" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
+                </div>
+
+                <!-- Foto 2 -->
+                <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
+                    <strong class="d-block mb-2">Foto 2</strong>
+                    <field name="x_chk_foto2" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
+                </div>
+
+                <!-- Foto 3 -->
+                <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
+                    <strong class="d-block mb-2">Foto 3</strong>
+                    <field name="x_chk_foto3" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
+                </div>
+                
+                <!-- Foto 4 -->
+                <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
+                    <strong class="d-block mb-2">Foto 4</strong>
+                    <field name="x_chk_foto4" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
+                </div>
+            </div>
+
+            <!-- Grupos de Recepción y Estado de Carrocería debajo de las fotos -->
             <group>
                 <group string="Recepcion">
                     <field name="x_chk_kilometraje"/>
                     <field name="x_chk_nivelcombustible" widget="radio" options="{'horizontal': true}"/>
-                    
                     <field name="x_chk_plumillas"/>
                     <field name="x_chk_llanta"/>
                     <field name="x_chk_llave_ruedas"/>
-                    <field name="x_chk_llave_birlos"/>
+                    <field name="x_chk_estado_neumaticos"/>
                     <field name="x_chk_gata"/>
                     <field name="x_chk_extintor"/>
                     <field name="x_chk_radio"/>
                     <field name="x_chk_claxon"/>
-                    <field name="x_chk_tarjetacirculacion"/>
-                    <field name="x_chk_tapetes"/>
-                    <field name="x_chk_tapa_combustible"/>
-                    <field name="x_chk_tapacubos"/>
                 </group>
                 <group string="Estado de Carrocería">
                     <field name="x_chk_espejos_laterales"/>
@@ -56,37 +124,137 @@
                     <field name="x_detalle_raspones" invisible="x_chk_raspones == False" placeholder="Indique dónde están los daños..."/>
                     <field name="x_chk_observacionesgenerales"/>  
                 </group>
-                <!-- Bloque de fotos (con función de zoom) -->
-                <separator string="Evidencia Fotográfica al Ingreso"/>
-                <div class="row mt-4 mb-4">
-                     <!-- Foto 1 -->
-                    <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
-                        <strong class="d-block mb-2">Foto 1</strong>
-                        <field name="x_chk_foto1" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
-                    </div>
-
-                    <!-- Foto 2 -->
-                    <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
-                        <strong class="d-block mb-2">Foto 2</strong>
-                        <field name="x_chk_foto2" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
-                    </div>
-
-                    <!-- Foto 3 -->
-                    <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
-                        <strong class="d-block mb-2">Foto 3</strong>
-                        <field name="x_chk_foto3" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
-                    </div>
-                    
-                    <!-- Foto 4 -->
-                    <div class="col-12 col-md-3 text-center mb-4" style="overflow: hidden; padding: 0 10px;">
-                        <strong class="d-block mb-2">Foto 4</strong>
-                        <field name="x_chk_foto4" widget="image" options="{'size': [160, 160], 'zoom': True}" nolabel="1"/>
-                    </div>
-
-                   
-                </div>
             </group>
+
         </page>
     </xpath>
-    
+
+    <!-- ============================================================ -->
+    <!-- T4: Pestañas Dinámicas (Odoo 19 Syntax)                      -->
+    <!-- ============================================================ -->
+    <xpath expr="//page[@name='services']" position="after">
+        
+        <!-- PESTAÑA 1: SOLO VISIBLE SI SE MARCA PREVENTIVO -->
+        <page string="Checklist Preventivo" name="ejecucion_preventivo" invisible="not x_chk_mant_prev">
+            <group string="Sistemas del Motor y Combustible">
+                <group>
+                    <label for="x_chk_aceite" string="Cambio de Aceite de Motor"/>
+                    <div class="o_row">
+                        <field name="x_chk_aceite" widget="boolean_toggle"/>
+                        <field name="x_acc_aceite" widget="radio" options="{'horizontal': true}" invisible="not x_chk_aceite"/>
+                        <field name="x_tipo_aceite" placeholder="Ej. 15W-40 / 5W-30" invisible="not x_chk_aceite"/>
+                    </div>
+                    
+                    <label for="x_chk_aceite_trans" string="Aceite de caja de trasmision"/>
+                    <div class="o_row">
+                        <field name="x_chk_aceite_trans" widget="boolean_toggle"/>
+                        <field name="x_acc_aceite_trans" widget="radio" options="{'horizontal': true}" invisible="not x_chk_aceite_trans"/>
+                    </div>
+                    
+                    <label for="x_chk_diferencial_posterior" string="Aceite de diferencial posterior"/>
+                    <div class="o_row">
+                        <field name="x_chk_diferencial_posterior" widget="boolean_toggle"/>
+                        <field name="x_acc_diferencial_posterior" widget="radio" options="{'horizontal': true}" invisible="not x_chk_diferencial_posterior"/>
+                    </div>
+
+                    <label for="x_chk_diferencial_delantero" string="Aceite de diferencial delantero"/>
+                    <div class="o_row">
+                        <field name="x_chk_diferencial_delantero" widget="boolean_toggle"/>
+                        <field name="x_acc_diferencial_delantero" widget="radio" options="{'horizontal': true}" invisible="not x_chk_diferencial_delantero"/>
+                    </div>    
+            
+                    <label for="x_chk_filtro_aceite" string="Filtro de aceite"/>
+                    <div class="o_row">
+                        <field name="x_chk_filtro_aceite" widget="boolean_toggle"/>
+                        <field name="x_acc_filtro_aceite" widget="radio" options="{'horizontal': true}" invisible="not x_chk_filtro_aceite"/>
+                    </div>
+                    
+                    <field name="x_chk_arandela" string="Cambio de arandela" widget="boolean_toggle"/>
+                    
+                    <label for="x_chk_filtro_aire" string="Filtro de aire de motor"/>
+                    <div class="o_row">
+                        <field name="x_chk_filtro_aire" widget="boolean_toggle"/>
+                        <field name="x_acc_filtro_aire" widget="radio" options="{'horizontal': true}" invisible="not x_chk_filtro_aire"/>
+                    </div>
+            
+                    <label for="x_chk_filtro_cabina" string="Filtro de aire acondicionado"/>
+                    <div class="o_row">
+                        <field name="x_chk_filtro_cabina" widget="boolean_toggle"/>
+                        <field name="x_acc_filtro_cabina" widget="radio" options="{'horizontal': true}" invisible="not x_chk_filtro_cabina"/>
+                    </div>
+            
+                    <label for="x_chk_filtro_combustible" string="Filtro de combustible"/>
+                    <div class="o_row">
+                        <field name="x_chk_filtro_combustible" widget="boolean_toggle"/>
+                        <field name="x_acc_filtro_combustible" widget="radio" options="{'horizontal': true}" invisible="not x_chk_filtro_combustible"/>
+                    </div>
+                </group>
+            
+                <group>
+                    <label for="x_chk_liquido_direccion" string="Liquido de Servodireccion"/>
+                    <div class="o_row">
+                        <field name="x_chk_liquido_direccion" widget="boolean_toggle"/>
+                        <field name="x_acc_liquido_direccion" widget="radio" options="{'horizontal': true}" invisible="not x_chk_liquido_direccion"/>
+                    </div>
+                    
+                    <label for="x_chk_sedimentador" string="Drenaje / Inspección sedimentador de agua"/>
+                    <div class="o_row">
+                        <field name="x_chk_sedimentador" widget="boolean_toggle"/>
+                        <field name="x_acc_sedimentador" widget="radio" options="{'horizontal': true}" invisible="not x_chk_sedimentador"/>
+                    </div>
+            
+                    <label for="x_chk_correas" string="Correas transmisoras"/>
+                    <div class="o_row">
+                        <field name="x_chk_correas" widget="boolean_toggle"/>
+                        <field name="x_acc_correas" widget="radio" options="{'horizontal': true}" invisible="not x_chk_correas"/>
+                    </div>
+            
+                    <label for="x_chk_refrigerante" string="Refrigerante de motor y manguitos"/>
+                    <div class="o_row">
+                        <field name="x_chk_refrigerante" widget="boolean_toggle"/>
+                        <field name="x_acc_refrigerante" widget="radio" options="{'horizontal': true}" invisible="not x_chk_refrigerante"/>
+                    </div>
+            
+                    <label for="x_chk_bujias" string="Bujías (Motor gasolina)"/>
+                    <div class="o_row">
+                        <field name="x_chk_bujias" widget="boolean_toggle"/>
+                        <field name="x_acc_bujias" widget="radio" options="{'horizontal': true}" invisible="not x_chk_bujias"/>
+                    </div>
+            
+                    <label for="x_chk_bateria" string="Batería y bornes"/>
+                    <div class="o_row">
+                        <field name="x_chk_bateria" widget="boolean_toggle"/>
+                        <field name="x_acc_bateria" widget="radio" options="{'horizontal': true}" invisible="not x_chk_bateria"/>
+                    </div>
+                </group>
+            </group>
+
+            <separator string="Chasis, Transmisión, Frenos y Dirección"/>
+            <group string="Sistemas Mecánicos y Tren de Rodaje">
+                <group>
+                    <field name="x_chk_frenos" string="Limpieza de pastillas, zapatas" widget="boolean_toggle"/>
+                    <label for="x_chk_liquido_frenos" string="Líquido de frenos y embrague"/>
+                    <div class="o_row">
+                        <field name="x_chk_liquido_frenos" widget="boolean_toggle"/>
+                        <field name="x_acc_liquido_frenos" widget="radio" options="{'horizontal': true}" invisible="not x_chk_liquido_frenos"/>
+                    </div>
+                    <field name="x_chk_engrase" string="Lubricacion de árboles transmisores / Cardán" widget="boolean_toggle"/>
+                    <field name="x_chk_torque_pernos" string="Torque de pernos de árbol y chasis" widget="boolean_toggle"/>
+                </group>
+                
+                <group>
+                    <field name="x_chk_direccion" string="Inspeccion del sistema de dirección" widget="boolean_toggle"/>
+                    <field name="x_chk_suspension_delantera" string="Inspeccion de suspensión delantera" widget="boolean_toggle"/>
+                    <field name="x_chk_suspension_posterior" string="Inspeccion de suspensión posterior" widget="boolean_toggle"/>
+                    <field name="x_chk_fluidos" string="Inspeccion de niveles de fluidos" widget="boolean_toggle"/>
+                    <field name="x_chk_neumaticos" string="Inspeccion de neumaticos" widget="boolean_toggle"/>
+                    <field name="x_chk_balanceo" string="Balanceo de ruedas" widget="boolean_toggle"/>
+                    <field name="x_chk_luces_bocina" string="Bocina, luces y limpiaparabrisas" widget="boolean_toggle"/>
+                </group>
+            </group>
+
+            <separator string="Observaciones y Trabajos Adicionales de la pauta"/>
+            <field name="x_notas_adicionales" nolabel="1" placeholder="Indique aquí detalles adicionales, pautas específicas de kilometraje (ej. 40,000 km) o repuestos especiales utilizados..."/>
+        </page>
+    </xpath>
 </data>
